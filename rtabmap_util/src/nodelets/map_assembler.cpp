@@ -187,7 +187,7 @@ MapAssembler::MapAssembler(const rclcpp::NodeOptions & options) :
 	// We cannot call the service and wait in the constructor, lets call it later and subscribe afterwards
 	serviceCbGroup_ = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 	timerCbGroup_ = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
-	client_ = this->create_client<rtabmap_msgs::srv::GetMap>(getMapSrv, rmw_qos_profile_services_default, serviceCbGroup_); // Put it in a different group than the timer
+	client_ = this->create_client<rtabmap_msgs::srv::GetMap>(getMapSrv, rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(rmw_qos_profile_services_default), rmw_qos_profile_services_default), serviceCbGroup_); // Put it in a different group than the timer
 	timer_ = this->create_wall_timer(1s, std::bind(&MapAssembler::timerCallback, this), timerCbGroup_);
 }
 

@@ -296,7 +296,7 @@ void CommonDataSubscriber::setupScanCallbacks(
 		else if(scan2dTopic)
 		{
 			subscribedToScan2d_ = true;
-			scanSub_.subscribe(&node, "scan", rclcpp::QoS(topicQueueSize_).reliability(qosScan_).get_rmw_qos_profile(), options);
+			scanSub_.subscribe(&node, "scan", rclcpp::SensorDataQoS(), options);
 		}
 		else
 		{
@@ -354,7 +354,7 @@ void CommonDataSubscriber::setupScanCallbacks(
 #endif			
 		if(subscribeOdom)
 		{
-			odomSub_.subscribe(&node, "odom", rclcpp::QoS(topicQueueSize_).reliability(qosOdom_).get_rmw_qos_profile(), options);
+			odomSub_.subscribe(&node, "odom", rclcpp::SensorDataQoS(), options);
 
 			if(scanDescTopic)
 			{
@@ -474,7 +474,7 @@ void CommonDataSubscriber::setupScanCallbacks(
 		else if(scan2dTopic)
 		{
 			subscribedToScan2d_ = true;
-			scan2dSubOnly_ = node.create_subscription<sensor_msgs::msg::LaserScan>("scan", rclcpp::QoS(topicQueueSize_).reliability(qosScan_), std::bind(&CommonDataSubscriber::scan2dCallback, this, std::placeholders::_1));
+			scan2dSubOnly_ = node.create_subscription<sensor_msgs::msg::LaserScan>("scan", rclcpp::SensorDataQoS(), std::bind(&CommonDataSubscriber::scan2dCallback, this, std::placeholders::_1));
 			subscribedTopicsMsg_ =
 					uFormat("\n%s subscribed to:\n   %s",
 					node.get_name(),
